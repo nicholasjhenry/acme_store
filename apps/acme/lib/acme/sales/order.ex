@@ -7,7 +7,7 @@ defmodule Acme.Sales.Order do
     use Acme.Schema
 
     schema "sales_orders" do
-      field :state, :string
+      field :state, Elixir.State.Ecto.Type
 
       timestamps()
     end
@@ -19,12 +19,12 @@ defmodule Acme.Sales.Order do
     defp apply_event(changeset, %OrderInitiated{order_id: order_id}) do
       changeset
       |> put_change(:id, order_id.id)
-      |> put_change(:state, "initiated")
+      |> put_change(:state, :initiated)
     end
 
     defp apply_event(changeset, %OrderPlaced{}) do
       changeset
-      |> put_change(:state, "placed")
+      |> put_change(:state, :placed)
     end
   end
 
@@ -36,15 +36,15 @@ defmodule Acme.Sales.Order do
     {:ok, %__MODULE__{pending_events: [%OrderInitiated{order_id: order_id}], current_state: %State{}}}
   end
 
-  def place(%{current_state: %{state: "initiated"} = initiated_order}) do
+  def place(%{current_state: %{state: :initiated} = initiated_order}) do
     {:ok, %__MODULE__{pending_events: [%OrderPlaced{order_id: initiated_order.id}], current_state: initiated_order}}
   end
 
   def initiated?(%{pending_events: [], current_state: %{state: state}}) do
-    state == "initiated"
+    state == :initiated
   end
 
   def placed?(%{pending_events: [], current_state: %{state: state}}) do
-    state == "placed"
+    state == :placed
   end
 end
