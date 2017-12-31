@@ -5,6 +5,7 @@ defmodule Acme.Sales.OrderRepository do
     Order.State
     |> Acme.Repo.get(id)
     |> Order.new
+    |> Result.ok
   end
 
   def save(order) do

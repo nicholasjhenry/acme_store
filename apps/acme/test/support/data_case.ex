@@ -20,6 +20,7 @@ defmodule Acme.DataCase do
       import Ecto.Schema
       import Ecto.Query, only: [from: 2]
       import Acme.DataCase
+      import Acme.Factory
     end
   end
 
