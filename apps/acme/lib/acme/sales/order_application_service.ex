@@ -1,4 +1,4 @@
-defmodule Acme.Sales.OrderService do
+defmodule Acme.Sales.OrderApplicationService do
   alias Acme.Sales.{Order, OrderId, OrderRepository, InitiateOrder, PlaceOrder}
 
   def handle(%InitiateOrder{} = command) do
