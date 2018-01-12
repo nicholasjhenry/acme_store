@@ -5,8 +5,14 @@ defmodule Acme.Sales.OrderId do
     UUID.uuid1
   end
 
+  def new!(id) do
+    struct(__MODULE__, id: id)
+  end
+
   def new(id) do
-    %__MODULE__{id: id}
+    __MODULE__
+    |> struct(id: id)
+    |> Result.ok
   end
 end
 

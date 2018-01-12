@@ -8,11 +8,24 @@ defmodule Acme.Sales.Order do
   end
 
   def initiate(order_id) do
-    {:ok, %__MODULE__{pending_events: [%OrderInitiated{order_id: order_id}], current_state: %Order.State{}}}
+    __MODULE__
+    |> struct(
+        pending_events: [%OrderInitiated{order_id: order_id}],
+        current_state: %Order.State{}
+      )
+    |> Result.ok
   end
 
-  def place(%{current_state: %{state: :initiated} = initiated_order}) do
-    {:ok, %__MODULE__{pending_events: [%OrderPlaced{order_id: initiated_order.id}], current_state: initiated_order}}
+  def place(
+    %{current_state: %{state: :initiated} = initiated_order},
+    %{email: _} = params)
+  do
+    __MODULE__
+    |> struct(
+        pending_events: [%OrderPlaced{order_id: initiated_order.id, email: params.email}],
+        current_state: initiated_order
+      )
+    |> Result.ok
   end
 
   def initiated?(%{pending_events: [], current_state: %{state: state}}) do

@@ -1,4 +1,4 @@
-defmodule Acme.Sales.Order.State do
+defmodule Acme.Sales.Order.Dto do
   use Acme.Schema
   alias Acme.Sales.{OrderInitiated, OrderPlaced}
 

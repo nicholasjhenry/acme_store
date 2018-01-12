@@ -15,7 +15,7 @@ defmodule Acme.Sales.OrderApplicationServiceTest do
       initiate_order_command = InitiateOrder.new(OrderId.generate)
       {:ok, initiated_order_id} = OrderApplicationService.handle(initiate_order_command)
 
-      {:ok, initiated_order} = OrderRepository.order_of_id(OrderId.new(initiated_order_id))
+      {:ok, initiated_order} = OrderRepository.order_of_id(initiated_order_id)
       assert initiated_order
       assert Order.initiated?(initiated_order)
     end
@@ -25,10 +25,10 @@ defmodule Acme.Sales.OrderApplicationServiceTest do
     setup :initiate_order
 
     test "then an order is placed", %{initiated_order: initiated_order} do
-      place_order_command = PlaceOrder.new(initiated_order.id)
+      place_order_command = PlaceOrder.new(initiated_order.id, "jane@example.com")
       {:ok, placed_order_id} = OrderApplicationService.handle(place_order_command)
 
-      {:ok, placed_order} = OrderRepository.order_of_id(OrderId.new(placed_order_id))
+      {:ok, placed_order} = OrderRepository.order_of_id(placed_order_id)
       assert placed_order
       assert Order.placed?(placed_order)
     end

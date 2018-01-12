@@ -4,6 +4,6 @@ defmodule Acme.Factory do
   alias Acme.Sales
 
   def sales_order_factory do
-    %Sales.Order.State{state: :initiated}
+    %Sales.Order.State{state: :initiated, email: "jane@example.com"}
   end
 end
